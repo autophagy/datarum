@@ -2,9 +2,13 @@
 
 Datárum is a small python library to convert Gregorian dates to Autophagian,
 an Old English variant on the [French Republican calendar](https://en.wikipedia.org/wiki/French_Republican_Calendar), 
-for use in various projects. At the moment, it doesn't implement the day names, and
-the year zero is the same as the republican calendar, but I might tweak that to
-something cooler at some point.
+for use in various projects. The year zero for this calendar is 1970, using the
+unix epoch as a starting point. So, the 1st Hærfest 0 corresponds to 23 Setpember
+1970.
+
+The leap years are calculated according to the Romme rule, which uses the
+4-100-400 rule from the Gregorian calendar (a leap day becoming an extra 6th
+Wending day).
 
 ## Hwý?
 
