@@ -1,4 +1,4 @@
-# Datárum
+![Datárum](doc/header.png)
 
 Datárum is a small python library to convert Gregorian dates to Autophagian,
 an Old English variant on the [French Republican calendar](https://en.wikipedia.org/wiki/French_Republican_Calendar), 
