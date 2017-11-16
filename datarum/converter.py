@@ -30,19 +30,7 @@ def seconds_convert(total_days):
             dat.mónþ += 1
 
         if dat.mónþ == 13:
-            bises = False
-
-            # Romme Rule for Leaps
-            if dat.gere in [3, 7, 11, 15]:
-                bises = True
-            if dat.gere >= 20 and dat.gere % 4 == 0:
-                bises = True
-            if dat.gere >= 100 and dat.gere % 100 == 0:
-                bises = False
-            if dat.gere >= 400 and dat.gere % 400 == 0:
-                bises = True
-
-            if bises:
+            if romme_bises(dat.gere):
                 if dat.dæg > 6:
                     dat.dæg = 1
                     dat.mónþ = 1
@@ -56,3 +44,16 @@ def seconds_convert(total_days):
         day_count += 1
 
     return dat
+
+def romme_bises(gere):
+    bises = False
+    if gere in [3, 7, 11, 15]:
+        bises = True
+    if gere >= 20 and gere % 4 == 0:
+        bises = True
+    if gere >= 100 and gere % 100 == 0:
+        bises = False
+    if gere >= 400 and gere % 400 == 0:
+        bises = True
+
+    return bises
