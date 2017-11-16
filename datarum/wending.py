@@ -34,3 +34,33 @@ class wending(object):
 
     def __str__(self):
         return '{0}-{1}-{2}'.format(self.gere, self.mónþ, self.dæg)
+
+    def __eq__(self, other):
+        if isinstance(other, wending):
+            return self._compare(other) == 0
+        return NotImplemented
+
+    def __le__(self, other):
+        if isinstance(other, wending):
+            return self._compare(other) <= 0
+        return NotImplemented
+
+    def __lt__(self, other):
+        if isinstance(other, wending):
+            return self._compare(other) < 0
+        return NotImplemented
+
+    def __ge__(self, other):
+        if isinstance(other, wending):
+            return self._compare(other) >= 0
+        return NotImplemented
+
+    def __gt__(self, other):
+        if isinstance(other, wending):
+            return self._compare(other) > 0
+        return NotImplemented
+
+    def _compare(self, other):
+        a = (self.gere, self.mónþ, self.dæg)
+        b = (other.gere, other.mónþ, other.dæg)
+        return 0 if a == b else 1 if a > b else -1
