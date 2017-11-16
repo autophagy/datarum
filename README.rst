@@ -2,6 +2,10 @@
 Datárum
 =======
 
+.. image:: https://travis-ci.org/Autophagy/datarum.svg?branch=master
+    :target: https://travis-ci.org/Autophagy/datarum
+    :alt: Build Status
+
 Datárum is a small python library to convert Gregorian dates to Wending,
 an Old English variant on the `French Republican calendar`_, for use in
 various projects.
