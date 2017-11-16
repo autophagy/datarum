@@ -1,4 +1,4 @@
-from datarum import from_date
+from datarum import from_date, to_gregorian, wending
 import unittest
 from datetime import datetime
 
@@ -36,28 +36,43 @@ romme = [
 ]
 
 
-class TestDatarumConversion(unittest.TestCase):
+class TestWendingConversion(unittest.TestCase):
 
     def test_year_starts(self):
         for dat, gregorian in year_starts:
-            gregorian_date = datetime(gregorian[0],
-                                      gregorian[1],
-                                      gregorian[2])
+            gregorian_date = datetime(*gregorian)
             c = from_date(gregorian_date)
             self.assertEqual(dat, c.tuple())
 
     def test_leaps(self):
         for dat, gregorian in leaps:
-            gregorian_date = datetime(gregorian[0],
-                                      gregorian[1],
-                                      gregorian[2])
+            gregorian_date = datetime(*gregorian)
             c = from_date(gregorian_date)
             self.assertEqual(dat, c.tuple())
 
     def test_romme_leaps(self):
         for dat, gregorian in romme:
-            gregorian_date = datetime(gregorian[0],
-                                      gregorian[1],
-                                      gregorian[2])
+            gregorian_date = datetime(*gregorian)
             c = from_date(gregorian_date)
             self.assertEqual(dat, c.tuple())
+
+
+class TestGregorianConversion(unittest.TestCase):
+
+    def test_year_starts(self):
+        for dat, gregorian in year_starts:
+            wending_date = wending(*dat)
+            g = to_gregorian(wending_date)
+            self.assertEqual(gregorian, (g.year, g.month, g.day))
+
+    def test_leaps(self):
+        for dat, gregorian in leaps:
+            wending_date = wending(*dat)
+            g = to_gregorian(wending_date)
+            self.assertEqual(gregorian, (g.year, g.month, g.day))
+
+    def test_romme_leaps(self):
+        for dat, gregorian in romme:
+            wending_date = wending(*dat)
+            g = to_gregorian(wending_date)
+            self.assertEqual(gregorian, (g.year, g.month, g.day))

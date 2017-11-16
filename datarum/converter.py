@@ -1,9 +1,10 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from . import wending
 
 
 # Revolutionary calendar starts on 22nd September 1792
 incept = datetime(1792, 9, 21)
+DAYS_IN_YEAR = 365
 
 
 def today():
@@ -17,10 +18,10 @@ def from_date(date):
                          'You cannot convert a date earlier than this.')
 
     diff = date.timestamp() - incept.timestamp()
-    return seconds_convert(int(round(diff / (24*60*60))))
+    return to_wending(int(round(diff / (24*60*60))))
 
 
-def seconds_convert(total_days):
+def to_wending(total_days):
     dat = wending(1, 1, 0)
     bises = False
 
@@ -50,15 +51,28 @@ def seconds_convert(total_days):
     return dat
 
 
-def romme_bises(gere):
-    bises = False
-    if gere in [3, 7, 11, 15]:
-        bises = True
-    if gere >= 20 and gere % 4 == 0:
-        bises = True
-    if gere >= 100 and gere % 100 == 0:
-        bises = False
-    if gere >= 400 and gere % 400 == 0:
-        bises = True
+def to_gregorian(wending_date):
+    return incept + timedelta(days=days_since_incept(wending_date) + 1)
 
-    return bises
+
+def days_since_incept(wending_date):
+    year_days = 0
+
+    for i in range(1, wending_date.gere):
+        if romme_bises(i):
+            year_days += DAYS_IN_YEAR + 1
+        else:
+            year_days += DAYS_IN_YEAR
+
+    month_days = (wending_date.mónþ-1) * 30
+
+    return year_days + month_days + (wending_date.dæg-1)
+
+
+def romme_bises(gere):
+    if gere in [3, 7, 11]:
+        return True
+    elif gere < 15:
+        return False
+
+    return (gere % 4 == 0 and gere % 100 != 0) or gere % 400 == 0
