@@ -3,7 +3,7 @@ import datetime
 
 class wending(object):
 
-    mónþas = [
+    _mónþas = [
         u'Hærfest',
         u'Mist',
         u'Forst',
@@ -26,7 +26,7 @@ class wending(object):
 
     def formatted(self):
         return '{0} {1} {2}'.format(self.dæg,
-                                    self.mónþas[self.mónþ-1],
+                                    self._mónþas[self.mónþ-1],
                                     self.gere)
 
     def tuple(self):

@@ -1,13 +1,14 @@
-import datetime
+from datetime import datetime, date
 from . import wending
 
 
 # Revolutionary calendar starts on 22nd September 1792
-incept = datetime.datetime(1792, 9, 21)
+incept = datetime(1792, 9, 21)
 
 
-def now():
-    return from_date(datetime.datetime.now())
+def today():
+    today = date.today()
+    return from_date(datetime.combine(today, datetime.min.time()))
 
 
 def from_date(date):

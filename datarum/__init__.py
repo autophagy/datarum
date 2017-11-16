@@ -1,2 +1,2 @@
 from .wending import wending
-from .converter import from_date, now
+from .converter import from_date, today
