@@ -5,8 +5,10 @@ from . import wending
 # Revolutionary calendar starts on 22nd September 1792
 incept = datetime.datetime(1792, 9, 21)
 
+
 def now():
     return from_date(datetime.datetime.now())
+
 
 def from_date(date):
     if date < incept:
@@ -16,6 +18,7 @@ def from_date(date):
     diff = date.timestamp() - incept.timestamp()
     return seconds_convert(int(round(diff / (24*60*60))))
 
+
 def seconds_convert(total_days):
     dat = wending(1, 1, 0)
     bises = False
@@ -24,7 +27,7 @@ def seconds_convert(total_days):
 
     while (day_count <= total_days):
         dat.dæg += 1
-        
+
         if (dat.dæg > 30):
             dat.dæg = 1
             dat.mónþ += 1
@@ -44,6 +47,7 @@ def seconds_convert(total_days):
         day_count += 1
 
     return dat
+
 
 def romme_bises(gere):
     bises = False

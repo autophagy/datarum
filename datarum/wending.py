@@ -25,7 +25,9 @@ class wending(object):
         self.dæg = dæg
 
     def formatted(self):
-        return '{0} {1} {2}'.format(self.dæg, self.mónþas[self.mónþ-1], self.gere)
+        return '{0} {1} {2}'.format(self.dæg,
+                                    self.mónþas[self.mónþ-1],
+                                    self.gere)
 
     def tuple(self):
         return (self.gere, self.mónþ, self.dæg)
