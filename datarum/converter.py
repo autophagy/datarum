@@ -7,11 +7,6 @@ incept = datetime(1792, 9, 21)
 DAYS_IN_YEAR = 365
 
 
-def today():
-    today = date.today()
-    return from_date(datetime.combine(today, datetime.min.time()))
-
-
 def from_date(date):
     if date < incept:
         raise ValueError('The calendar begins at 1792-09-22. '
@@ -22,7 +17,7 @@ def from_date(date):
 
 
 def to_wending(total_days):
-    dat = wending(1, 1, 0)
+    dat = wending.wending(1, 1, 0)
     bises = False
 
     day_count = 1

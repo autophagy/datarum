@@ -1,4 +1,5 @@
-import datetime
+from datetime import datetime, date
+from .converter import from_date
 
 
 class wending(object):
@@ -19,10 +20,17 @@ class wending(object):
         u'Wending'
     ]
 
-    def __init__(self, gere, mónþ, dæg):
+    def __new__(self, gere, mónþ, dæg):
+        self = object.__new__(self)
         self.gere = gere
         self.mónþ = mónþ
         self.dæg = dæg
+        return self
+
+    @classmethod
+    def today(self):
+        today = datetime.combine(date.today(), datetime.min.time())
+        return from_date(today)
 
     def formatted(self):
         return '{0} {1} {2}'.format(self.dæg,
