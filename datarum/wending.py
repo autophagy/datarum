@@ -22,6 +22,22 @@ class wending(object):
         u'Wending'
     ]
 
+    _easy_mónþas = [
+        u'haerfest',
+        u'mist',
+        u'forst',
+        u'snaw',
+        u'regn',
+        u'wind',
+        u'saed',
+        u'blostm',
+        u'maedland',
+        u'rip',
+        u'hat',
+        u'waestm',
+        u'wending'
+    ]
+
     def __new__(self, gere, mónþ, dæg):
         self = object.__new__(self)
         self.gere = gere
@@ -30,9 +46,14 @@ class wending(object):
         return self
 
     @classmethod
-    def today(self):
+    def today(cls):
         today = datetime.combine(date.today(), datetime.min.time())
         return from_date(today)
+
+    @classmethod
+    def from_date_string(cls, date_string):
+        dæg, mónþ, gere = date_string.split()
+        return cls(int(gere), cls._easy_mónþas.index(mónþ.lower()) + 1, int(dæg))
 
     def formatted(self):
         return '{0} {1} {2}'.format(self.dæg,
