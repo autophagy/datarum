@@ -52,8 +52,8 @@ class wending(object):
 
     @classmethod
     def from_date_string(cls, date_string):
-        dæg, mónþ, gere = date_string.split()
-        return cls(int(gere), cls._easy_mónþas.index(mónþ.lower()) + 1, int(dæg))
+        d, m, g = date_string.split()
+        return cls(int(g), cls._easy_mónþas.index(m.lower()) + 1, int(d))
 
     def formatted(self):
         return '{0} {1} {2}'.format(self.dæg,
