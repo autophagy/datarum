@@ -2,13 +2,26 @@
 Datárum
 =======
 
+.. image:: https://readthedocs.org/projects/datarum/badge/?version=latest
+    :target: http://datarum.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 .. image:: https://travis-ci.org/Autophagy/datarum.svg?branch=master
     :target: https://travis-ci.org/Autophagy/datarum
     :alt: Build Status
 
+.. image:: https://img.shields.io/pypi/v/datarum.svg
+   :target: https://pypi.python.org/pypi/datarum/
+   :alt: Pypi Version
+
+.. image:: https://img.shields.io/pypi/pyversions/datarum.svg
+   :target: https://pypi.python.org/pypi/datarum/
+   :alt: Python Version
+
+
 Datárum is a small python library to convert Gregorian dates to Wending,
 an Old English variant on the `French Republican calendar`_, for use in
-various projects.
+various projects. Documentation is available on `ReadTheDocs`_.
 
 The leap years are calculated according to the Romme rule, which uses
 the 4-100-400 rule from the Gregorian calendar (a leap day becoming an
@@ -58,3 +71,4 @@ Translation
 +-------------------+----------------+-------------+-----------------------------+
 
 .. _French Republican calendar: https://en.wikipedia.org/wiki/French_Republican_Calendar
+.. _ReadTheDocs: http://datarum.readthedocs.io
