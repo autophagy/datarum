@@ -14,6 +14,8 @@ def from_date(date):
         raise ValueError('The calendar begins at 1792-09-22. '
                          'You cannot convert a date earlier than this.')
 
+    # Remove the time from the timestamp
+    date = datetime.combine(date, datetime.min.time())
     diff = date.timestamp() - incept.timestamp()
     return to_wending(int(round(diff / (24*60*60))))
 
