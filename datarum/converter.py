@@ -10,6 +10,9 @@ DAYS_IN_YEAR = 365
 
 
 def from_date(date):
+    if type(date) is not datetime:
+        raise ValueError('Supplied date must be of type datetime.')
+
     if date < incept:
         raise ValueError('The calendar begins at 1792-09-22. '
                          'You cannot convert a date earlier than this.')
@@ -51,6 +54,9 @@ def to_wending(total_days):
 
 
 def to_gregorian(wending_date):
+    if not isinstance(wending_date, wending.wending):
+        raise ValueError('Supplied date must be of type wending.')
+
     return incept + timedelta(days=days_since_incept(wending_date) + 1)
 
 

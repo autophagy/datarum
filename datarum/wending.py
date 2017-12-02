@@ -40,6 +40,18 @@ class wending(object):
 
     def __new__(self, gere, mónþ, dæg):
         self = object.__new__(self)
+
+        if gere < 0:
+            raise ValueError("Gere must not be less than zero.")
+        elif mónþ < 0 or mónþ > 13:
+            raise ValueError("{} is an invalid mónþ.")
+        elif dæg < 0:
+            raise ValueError("Dæg must not be less than zero.")
+        elif dæg > 30:
+            raise ValueError("Dæg cannot be greater than 30.")
+        elif (mónþ == 13 and dæg > 6):
+            raise ValueError("Dæg cannot be greater than 6 for a Wending day.")
+
         self.gere = gere
         self.mónþ = mónþ
         self.dæg = dæg
@@ -52,7 +64,17 @@ class wending(object):
 
     @classmethod
     def from_date_string(cls, date_string):
-        d, m, g = date_string.split()
+        try:
+            d, m, g = date_string.split()
+        except ValueError:
+            raise ValueError("{} is not a valid date string"
+                             .format(date_string))
+
+        if m.lower() in cls._easy_mónþas:
+            mónþas_index = cls._easy_mónþas.index(m.lower()) + 1
+        else:
+            raise ValueError("{} is not a valid mónþ.".format(m))
+
         return cls(int(g), cls._easy_mónþas.index(m.lower()) + 1, int(d))
 
     def formatted(self):
