@@ -18,12 +18,12 @@ def from_date(date):
                          'You cannot convert a date earlier than this.')
 
     # Remove the time from the timestamp
-    date = datetime.combine(date, datetime.min.time())
-    diff = date.timestamp() - incept.timestamp()
-    return to_wending(int(round(diff / (24*60*60))))
+    date_sans_time = datetime.combine(date, datetime.min.time())
+    diff = date_sans_time.timestamp() - incept.timestamp()
+    return to_wending(int(round(diff / (24*60*60))), date.time())
 
 
-def to_wending(total_days):
+def to_wending(total_days, wending_time=None):
     dat = wending.wending(1, 1, 0)
     bises = False
 
@@ -49,6 +49,9 @@ def to_wending(total_days):
                     dat.gere += 1
 
         day_count += 1
+
+    if wending_time:
+        dat.time = wending_time
 
     return dat
 
