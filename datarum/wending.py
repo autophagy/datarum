@@ -109,11 +109,6 @@ class wending(object):
 
         return cls(int(g), cls._easy_mónþas.index(m.lower()) + 1, int(d))
 
-    def formatted(self):
-        return '{0} {1} {2}'.format(self.dæg,
-                                    self._mónþas[self.mónþ-1],
-                                    self.gere)
-
     def tuple(self):
         return (self.gere, self.mónþ, self.dæg)
 
