@@ -7,7 +7,7 @@ object::
 
     >>> dt = datetime.datetime(2017, 8, 15)
     >>> wending_date = datarum.from_date(dt)
-    >>> wending_date.formatted()
+    >>> wending_date.strftime('{daeg} {month} {gere}')
     '28 Hát 225'
 
 ``to_gregorian`` converts a wending object to a datetime object::
