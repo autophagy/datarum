@@ -5,7 +5,7 @@ from . import wending
 
 
 # Revolutionary calendar starts on 22nd September 1792
-incept = datetime(1792, 9, 21)
+incept = datetime(1792, 9, 21, 0, 0, 0)
 DAYS_IN_YEAR = 365
 
 
@@ -60,7 +60,12 @@ def to_gregorian(wending_date):
     if not isinstance(wending_date, wending.wending):
         raise ValueError('Supplied date must be of type wending.')
 
-    return incept + timedelta(days=days_since_incept(wending_date) + 1)
+    dt = datetime(1,1,1,0,0,0)
+    wending_time = datetime.combine(dt, wending_date.time)
+    incept_time = datetime.combine(dt, incept.time())
+    td = wending_time - incept_time
+
+    return incept + td + timedelta(days=days_since_incept(wending_date) + 1)
 
 
 def days_since_incept(wending_date):
