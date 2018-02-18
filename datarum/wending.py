@@ -161,6 +161,6 @@ class wending(object):
         return NotImplemented
 
     def _compare(self, other):
-        a = (self.gere, self.mónþ, self.dæg)
-        b = (other.gere, other.mónþ, other.dæg)
+        a = (self.gere, self.mónþ, self.dæg, self.time)
+        b = (other.gere, other.mónþ, other.dæg, other.time)
         return 0 if a == b else 1 if a > b else -1
