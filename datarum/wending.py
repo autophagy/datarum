@@ -128,21 +128,6 @@ class wending(object):
     def now(cls):
         return from_date(datetime.now())
 
-    @classmethod
-    def from_date_string(cls, date_string):
-        try:
-            d, m, g = date_string.split()
-        except ValueError:
-            raise ValueError("{} is not a valid date string"
-                             .format(date_string))
-
-        if m.lower() in cls._easy_mónþas:
-            mónþas_index = cls._easy_mónþas.index(m.lower()) + 1
-        else:
-            raise ValueError("{} is not a valid mónþ.".format(m))
-
-        return cls(int(g), cls._easy_mónþas.index(m.lower()) + 1, int(d))
-
     def tuple(self):
         return (self.gere, self.mónþ, self.dæg)
 

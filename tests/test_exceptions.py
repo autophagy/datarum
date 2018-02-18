@@ -24,13 +24,15 @@ class TestWendingExceptions(unittest.TestCase):
 
     def test_invalid_from_string(self):
         with self.assertRaises(ValueError):
-            w1 = datarum.wending.from_date_string("Hello World")
+            w1 = datarum.wending.strptime("Hello World", "{daeg} {month}")
 
         with self.assertRaises(ValueError):
-            w1 = datarum.wending.from_date_string("21 Bompo 221")
+            w1 = datarum.wending.strptime("21 Bompo 221",
+                                          "{daeg} {month} {gere}")
 
         with self.assertRaises(ValueError):
-            w1 = datarum.wending.from_date_string("300 Forst 226")
+            w1 = datarum.wending.strptime("300 Forst 226",
+                                          "{daeg} {month} {gere}")
 
     def test_invalid_dates(self):
         with self.assertRaises(ValueError):
