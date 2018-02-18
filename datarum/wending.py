@@ -129,7 +129,8 @@ class wending(object):
         return from_date(datetime.now())
 
     def tuple(self):
-        return (self.gere, self.mónþ, self.dæg)
+        return (self.gere, self.mónþ, self.dæg,
+                self.time.hour, self.time.minute, self.time.second)
 
     def __str__(self):
         return '{0}.{1}.{2} {3}'.format(self.gere, self.mónþ, self.dæg,
