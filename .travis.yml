@@ -5,7 +5,7 @@ install:
   - pip install pycodestyle
 script:
   - pycodestyle datarum
-  - pycodestyle tests
+  - pycodestyle fandath
   - python -m unittest -v
 notifications:
   email: false
