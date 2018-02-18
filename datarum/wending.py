@@ -2,6 +2,7 @@
 
 from datetime import datetime, date, time
 from .converter import from_date
+from parse import parse
 
 
 class wending(object):
@@ -62,7 +63,6 @@ class wending(object):
     # daeg_zero   :: Dæg of Mónþ as zero padded number
     # daeg        :: Dæg of Mónþ as decimal number
     # month       :: Mónþ as formatted string
-    # easy_month  :: Mónþ without any special characters
     # gere        :: Gere as decimal number
     # tid_zero    :: Hour as zero padded number
     # tid         :: Hour as decimal number
@@ -81,7 +81,6 @@ class wending(object):
         return(format_string.format(daeg_zero=zero_pad(self.dæg),
                                     daeg=self.dæg,
                                     month=self._mónþas[self.mónþ-1],
-                                    easy_month=self._easy_mónþas[self.mónþ-1],
                                     gere=self.gere,
                                     tid_zero=zero_pad(self.time.hour),
                                     tid=self.time.hour,
@@ -89,6 +88,41 @@ class wending(object):
                                     minute=self.time.minute,
                                     second_zero=zero_pad(self.time.second),
                                     second=self.time.second))
+
+    @classmethod
+    def strptime(cls, wending_string, format_string):
+        def unzero(number):
+            if number is not None and number[0] == '0':
+                return number[1:]
+            else:
+                return number
+
+        def get_mónþ(month_string):
+            if month_string is None:
+                return None
+            if month_string.lower() in cls._easy_mónþas:
+                return cls._easy_mónþas.index(month_string.lower()) + 1
+            elif month_string in cls._mónþas:
+                return cls._mónþas.index(month_string) + 1
+            else:
+                return None
+
+        items = parse(format_string, wending_string).named
+
+        daeg = unzero(items.get('daeg_zero', None)) or items.get('daeg', None)
+        month = get_mónþ(items.get('month', None))
+        gere = items.get('gere', None)
+        tid = unzero(items.get('tid_zero', None)) or items.get('tid', None)
+        minute = unzero(items.get('minute_zero', None)) or items.get('minute', None)
+        second = unzero(items.get('second_zero', None)) or items.get('second', None)
+
+        if daeg == None:  raise ValueError("No valid dæg found in wending string.")
+        if month == None: raise ValueError("No valid mónþ found in wending string.")
+        if gere == None:  raise ValueError("No valid gere found in wending string.")
+
+        return cls(int(gere), month, int(daeg),
+                   int(tid or 0), int(minute or 0), int(second or 0))
+
 
     @classmethod
     def now(cls):

@@ -16,6 +16,7 @@ setup(
     long_description=open('README.rst', encoding='utf-8').read(),
     packages=['datarum'],
     python_requires='>=3',
+    install_requires=['parse'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
