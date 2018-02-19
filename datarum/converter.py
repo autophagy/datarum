@@ -69,23 +69,11 @@ def to_gregorian(wending_date):
 
 
 def days_since_incept(wending_date):
-    year_days = 0
-
-    for i in range(1, wending_date.gere):
-        if romme_bises(i):
-            year_days += DAYS_IN_YEAR + 1
-        else:
-            year_days += DAYS_IN_YEAR
-
+    y = wending_date.gere - 1
+    year_days = y*DAYS_IN_YEAR + y//4 - y//100 + y//400
     month_days = (wending_date.mónþ-1) * 30
-
     return year_days + month_days + (wending_date.dæg-1)
 
 
 def romme_bises(gere):
-    if gere in [3, 7, 11]:
-        return True
-    elif gere < 15:
-        return False
-
     return (gere % 4 == 0 and gere % 100 != 0) or gere % 400 == 0
