@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime, date, time
-from .converter import from_date
+from datetime import datetime, date, time, timedelta
+from .converter import from_date, days_since_incept, to_wending
 from parse import parse
 
 
@@ -160,6 +160,40 @@ class wending(object):
         if isinstance(other, wending):
             return self._compare(other) > 0
         return NotImplemented
+
+    def __add__(self, other):
+        if not isinstance(other, timedelta):
+            return NotImplemented
+
+        delta = timedelta(days_since_incept(self),
+                          hours=self.time.hour,
+                          minutes=self.time.minute,
+                          seconds=self.time.second)
+
+        delta += other
+        h, r = divmod(delta.seconds, 3600)
+        m, s = divmod(r, 60)
+
+        if delta.days > 0:
+            return(to_wending(delta.days,
+                              time(h, m, s)))
+        else:
+            raise OverflowError("Result out of range.")
+
+    __radd__ = __add__
+
+    def __sub__(self, other):
+        if not isinstance(other, wending):
+            if isinstance(other, timedelta):
+                return self + -other
+            return NotImplemented
+
+        days_self = days_since_incept(self)
+        days_other = days_since_incept(other)
+        return timedelta(days=days_self-days_other,
+                         hours=self.time.hour - other.time.hour,
+                         minutes=self.time.hour - other.time.minute,
+                         seconds=self.time.second - other.time.second)
 
     def _compare(self, other):
         a = (self.gere, self.mónþ, self.dæg, self.time)
