@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date, time, timedelta
-from .converter import from_date, days_since_incept, to_wending
+from .converter import from_date, days_since_incept, to_wending, romme_bises
 from parse import parse
 
 
@@ -51,8 +51,10 @@ class wending(object):
             raise ValueError("Dæg must not be less than zero.")
         elif dæg > 30:
             raise ValueError("Dæg cannot be greater than 30.")
-        elif (mónþ == 13 and dæg > 6):
+        elif (mónþ == 13 and dæg > 6 and romme_bises(gere)):
             raise ValueError("Dæg cannot be greater than 6 for a Wending day.")
+        elif (mónþ == 13 and dæg > 5 and not romme_bises(gere)):
+            raise ValueError("Dæg cannot be greater than 5 for a Wending day.")
 
         self.time = time(tid, minute, second, millisecond)
         self.gere = gere
