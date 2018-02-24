@@ -153,6 +153,12 @@ class wending(object):
     def todatetime(self):
         return to_gregorian(self)
 
+    def __repr__(self):
+        rep_string = "{module}.{name}({tuple})"
+        return rep_string.format(module=self.__class__.__module__,
+                                 name=self.__class__.__qualname__,
+                                 tuple=", ".join(list(map(str, self.tuple()))))
+
     def __str__(self):
         return '{0}.{1}.{2} {3}'.format(self.gere, self.mónþ, self.dæg,
                                         self.time)
