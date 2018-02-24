@@ -12,7 +12,7 @@ and can be invoked via::
 
     from datarum import wending
 
-A Wending date can be created 3 ways. The first, via a constructor giving the
+A Wending date can be created 5 ways. The first, via a constructor giving the
 year, month and date, hour, minute and second (the latter 3 being optional)::
 
     new_wending = wending(226, 3, 13)
@@ -22,7 +22,17 @@ The second, is by creating the current Wending datetime::
 
     today_wending = wending.now()
 
-The third, is via ``strptime``::
+The third, is via ``fromordinal``. This returns a Wending date that offset a
+number of days from the inception date of the calendar::
+
+    new_wending = wending.fromordinal(1000)
+
+The fourth, is via a conversion from a Python ``datetime`` object::
+
+    dt = datetime.datetime(2018, 07, 01)
+    wending_from_dt = wending.fromdatetime(dt)
+
+The fifth, is via ``strptime``::
 
     wending_date = wending.strptime('30 mist 226 // 12.35', '{daeg} {month} {gere} // {tid_zero}.{minute_zero}')
 
