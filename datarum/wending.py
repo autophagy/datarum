@@ -208,12 +208,9 @@ class wending(object):
             if isinstance(other, timedelta):
                 return self + -other
             return NotImplemented
-
-        days_self = self.toordinal()
-        days_other = other.toordinal()
-        return timedelta(days=days_self-days_other,
+        return timedelta(days=self.toordinal()-other.toordinal(),
                          hours=self.time.hour - other.time.hour,
-                         minutes=self.time.hour - other.time.minute,
+                         minutes=self.time.minute - other.time.minute,
                          seconds=self.time.second - other.time.second)
 
     def _compare(self, other):
