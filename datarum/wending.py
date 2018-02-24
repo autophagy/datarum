@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date, time, timedelta
-from .converter import from_date, days_since_incept, to_wending, romme_bises
+from .converter import from_date, days_since_incept, to_wending_from_ordinal, romme_bises, to_gregorian
 from parse import parse
 
 
@@ -39,6 +39,8 @@ class wending(object):
         u'wending'
     ]
 
+    # // Constructors //
+
     def __new__(self, gere, mónþ, dæg,
                 tid=0, minute=0, second=0, millisecond=0):
         self = object.__new__(self)
@@ -61,6 +63,22 @@ class wending(object):
         self.mónþ = mónþ
         self.dæg = dæg
         return self
+
+    # Returns the current datetime as Wending.
+    @classmethod
+    def now(cls):
+        return from_date(datetime.now())
+
+    # Returns a wending date from an ordinal (the number of days from the incept)
+    @classmethod
+    def fromordinal(cls, o):
+        return to_wending_from_ordinal(o)
+
+    # Return a wending date from a datetime.
+    @classmethod
+    def fromdatetime(cls, dt):
+        return from_date(dt)
+
 
     # daeg_zero   :: Dæg of Mónþ as zero padded number
     # daeg        :: Dæg of Mónþ as decimal number
@@ -125,14 +143,15 @@ class wending(object):
         return cls(int(gere), month, int(daeg),
                    int(tid or 0), int(minute or 0), int(second or 0))
 
-
-    @classmethod
-    def now(cls):
-        return from_date(datetime.now())
-
     def tuple(self):
         return (self.gere, self.mónþ, self.dæg,
                 self.time.hour, self.time.minute, self.time.second)
+
+    def toordinal(self):
+        return days_since_incept(self)
+
+    def todatetime(self):
+        return to_gregorian(self)
 
     def __str__(self):
         return '{0}.{1}.{2} {3}'.format(self.gere, self.mónþ, self.dæg,
@@ -167,7 +186,7 @@ class wending(object):
         if not isinstance(other, timedelta):
             return NotImplemented
 
-        delta = timedelta(days_since_incept(self),
+        delta = timedelta(self.toordinal(),
                           hours=self.time.hour,
                           minutes=self.time.minute,
                           seconds=self.time.second)
@@ -177,8 +196,8 @@ class wending(object):
         m, s = divmod(r, 60)
 
         if delta.days > 0:
-            return(to_wending(delta.days,
-                              time(h, m, s)))
+            return(to_wending_from_ordinal(delta.days,
+                                           time(h, m, s)))
         else:
             raise OverflowError("Result out of range.")
 
@@ -190,8 +209,8 @@ class wending(object):
                 return self + -other
             return NotImplemented
 
-        days_self = days_since_incept(self)
-        days_other = days_since_incept(other)
+        days_self = self.toordinal()
+        days_other = other.toordinal()
         return timedelta(days=days_self-days_other,
                          hours=self.time.hour - other.time.hour,
                          minutes=self.time.hour - other.time.minute,

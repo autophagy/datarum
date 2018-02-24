@@ -20,7 +20,7 @@ def from_date(date):
     # Remove the time from the timestamp
     date_sans_time = datetime.combine(date, datetime.min.time())
     diff = date_sans_time.timestamp() - incept.timestamp()
-    return to_wending(int(round(diff / (24*60*60))), date.time())
+    return to_wending_from_ordinal(int(round(diff / (24*60*60))), date.time())
 
 
 # We are using the 4/100/400 leap year rule for Wending dates.
@@ -39,7 +39,7 @@ _days_in_100g_cycle = 25 * _days_in_4g_cycle - 1
 # Finally, days within a 400 year cycle, where a leap is added back in.
 _days_in_400g_cycle = 4 * _days_in_100g_cycle + 1
 
-def to_wending(total_days, wending_time=None):
+def to_wending_from_ordinal(total_days, wending_time=None):
     total_days -= 1
 
     # First, calculate the number of 400 year cycles that proceed total_days.

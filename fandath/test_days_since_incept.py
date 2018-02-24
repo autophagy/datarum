@@ -1,4 +1,4 @@
-from datarum import wending, days_since_incept, to_wending
+from datarum import wending
 import unittest
 
 expected = [
@@ -16,9 +16,9 @@ class TestOrdinalFunctions(unittest.TestCase):
     def test_days_since_incept(self):
         for dat, days in expected:
             w = wending(*dat)
-            self.assertEqual(days_since_incept(w), days)
+            self.assertEqual(w.toordinal(), days)
 
     def test_days_to_wending(self):
         for dat, days in expected:
-            w = to_wending(days)
+            w = wending.fromordinal(days)
             self.assertEqual(w.tuple(), dat)

@@ -1,4 +1,4 @@
-from datarum import from_date, to_gregorian, wending
+from datarum import wending
 import unittest
 from datetime import datetime
 
@@ -30,13 +30,13 @@ class TestWendingConversion(unittest.TestCase):
     def test_year_starts(self):
         for dat, gregorian in year_starts:
             gregorian_date = datetime(*gregorian)
-            c = from_date(gregorian_date)
+            c = wending.fromdatetime(gregorian_date)
             self.assertEqual(dat, c.tuple())
 
     def test_romme_leaps(self):
         for dat, gregorian in romme:
             gregorian_date = datetime(*gregorian)
-            c = from_date(gregorian_date)
+            c = wending.fromdatetime(gregorian_date)
             self.assertEqual(dat, c.tuple())
 
 
@@ -45,13 +45,13 @@ class TestGregorianConversion(unittest.TestCase):
     def test_year_starts(self):
         for dat, gregorian in year_starts:
             wending_date = wending(*dat)
-            g = to_gregorian(wending_date)
+            g = wending_date.todatetime()
             self.assertEqual(gregorian, (g.year, g.month, g.day, g.hour,
                                          g.minute, g.second))
 
     def test_romme_leaps(self):
         for dat, gregorian in romme:
             wending_date = wending(*dat)
-            g = to_gregorian(wending_date)
+            g = wending_date.todatetime()
             self.assertEqual(gregorian, (g.year, g.month, g.day, g.hour,
                                          g.minute, g.second))
