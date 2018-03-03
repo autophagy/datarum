@@ -42,7 +42,7 @@ class wending(object):
     # // Constructors //
 
     def __new__(self, gere, mónþ, dæg,
-                tid=0, minute=0, second=0, millisecond=0):
+                tid=0, minute=0, second=0, microsecond=0):
         self = object.__new__(self)
 
         if gere < 0:
@@ -58,10 +58,13 @@ class wending(object):
         elif (mónþ == 13 and dæg > 5 and not romme_bises(gere)):
             raise ValueError("Dæg cannot be greater than 5 for a Wending day.")
 
-        self.time = time(tid, minute, second, millisecond)
-        self.gere = gere
-        self.mónþ = mónþ
-        self.dæg = dæg
+        self._gere = gere
+        self._mónþ = mónþ
+        self._dæg = dæg
+        self._tid = tid
+        self._minute = minute
+        self._second = second
+        self._microsecond = microsecond
         return self
 
     # Returns the current datetime as Wending.
@@ -79,6 +82,35 @@ class wending(object):
     def fromdatetime(cls, dt):
         return from_date(dt)
 
+    # Accessor Properties
+
+    @property
+    def year(self):
+        return self._gere
+
+    @property
+    def month(self):
+        return self._mónþ
+
+    @property
+    def day(self):
+        return self._dæg
+
+    @property
+    def hour(self):
+        return self._tid
+
+    @property
+    def minute(self):
+        return self._minute
+
+    @property
+    def second(self):
+        return self._second
+
+    @property
+    def microsecond(self):
+        return self._microsecond
 
     # daeg_zero   :: Dæg of Mónþ as zero padded number
     # daeg        :: Dæg of Mónþ as decimal number
@@ -98,16 +130,16 @@ class wending(object):
             else:
                 return number
 
-        return(format_string.format(daeg_zero=zero_pad(self.dæg),
-                                    daeg=self.dæg,
-                                    month=self._mónþas[self.mónþ-1],
-                                    gere=self.gere,
-                                    tid_zero=zero_pad(self.time.hour),
-                                    tid=self.time.hour,
-                                    minute_zero=zero_pad(self.time.minute),
-                                    minute=self.time.minute,
-                                    second_zero=zero_pad(self.time.second),
-                                    second=self.time.second))
+        return(format_string.format(daeg_zero=zero_pad(self._dæg),
+                                    daeg=self._dæg,
+                                    month=self._mónþas[self._mónþ-1],
+                                    gere=self._gere,
+                                    tid_zero=zero_pad(self._tid),
+                                    tid=self._tid,
+                                    minute_zero=zero_pad(self._minute),
+                                    minute=self._minute,
+                                    second_zero=zero_pad(self._second),
+                                    second=self._second))
 
     @classmethod
     def strptime(cls, wending_string, format_string):
@@ -143,9 +175,20 @@ class wending(object):
         return cls(int(gere), month, int(daeg),
                    int(tid or 0), int(minute or 0), int(second or 0))
 
+    def replace(self, year=None, month=None, day=None, hour=None, minute=None,
+                second=None, microsecond=None):
+        year = self.year if year is None else year
+        month = self.month if month is None else month
+        day = self.day if day is None else day
+        hour = self.hour if hour is None else hour
+        minute = self.minute if minute is None else minute
+        second = self.second if second is None else second
+        microsecond = self.microsecond if microsecond is None else microsecond
+        return type(self)(year, month, day, hour, minute, second, microsecond)
+
     def tuple(self):
-        return (self.gere, self.mónþ, self.dæg,
-                self.time.hour, self.time.minute, self.time.second)
+        return (self._gere, self._mónþ, self._dæg,
+                self._tid, self._minute, self._second)
 
     def toordinal(self):
         return days_since_incept(self)
@@ -156,6 +199,9 @@ class wending(object):
     def weekday(self):
         return (self.toordinal() + 4) % 7
 
+    def time(self):
+        return time(self._tid, self._minute, self._second, self._microsecond)
+
     def __repr__(self):
         rep_string = "{module}.{name}({tuple})"
         return rep_string.format(module=self.__class__.__module__,
@@ -163,8 +209,8 @@ class wending(object):
                                  tuple=", ".join(list(map(str, self.tuple()))))
 
     def __str__(self):
-        return '{0}.{1}.{2} {3}'.format(self.gere, self.mónþ, self.dæg,
-                                        self.time)
+        return '{0}.{1}.{2} {3}'.format(self._gere, self._mónþ, self._dæg,
+                                        self.time())
 
     def __eq__(self, other):
         if isinstance(other, wending):
@@ -196,17 +242,18 @@ class wending(object):
             return NotImplemented
 
         delta = timedelta(self.toordinal(),
-                          hours=self.time.hour,
-                          minutes=self.time.minute,
-                          seconds=self.time.second)
+                          hours=self._tid,
+                          minutes=self._minute,
+                          seconds=self._second)
 
         delta += other
         h, r = divmod(delta.seconds, 3600)
         m, s = divmod(r, 60)
 
         if delta.days > 0:
-            return(to_wending_from_ordinal(delta.days,
-                                           time(h, m, s)))
+            return to_wending_from_ordinal(delta.days).replace(hour=h,
+                                                               minute=m,
+                                                               second=s)
         else:
             raise OverflowError("Result out of range.")
 
@@ -218,11 +265,11 @@ class wending(object):
                 return self + -other
             return NotImplemented
         return timedelta(days=self.toordinal()-other.toordinal(),
-                         hours=self.time.hour - other.time.hour,
-                         minutes=self.time.minute - other.time.minute,
-                         seconds=self.time.second - other.time.second)
+                         hours=self._tid - other.hour,
+                         minutes=self._minute - other.minute,
+                         seconds=self._second - other.second)
 
     def _compare(self, other):
-        a = (self.gere, self.mónþ, self.dæg, self.time)
-        b = (other.gere, other.mónþ, other.dæg, other.time)
+        a = (self._gere, self._mónþ, self._dæg, self.time())
+        b = (other.year, other.month, other.day, other.time())
         return 0 if a == b else 1 if a > b else -1
