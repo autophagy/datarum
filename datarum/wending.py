@@ -7,6 +7,9 @@ from parse import parse
 
 class wending(object):
 
+    MINYEAR = 0
+    MAXYEAR = 9999
+
     _mónþas = [
         u'Hærfest',
         u'Mist',
@@ -45,18 +48,24 @@ class wending(object):
                 tid=0, minute=0, second=0, microsecond=0):
         self = object.__new__(self)
 
-        if gere < 0:
-            raise ValueError("Gere must not be less than zero.")
-        elif mónþ < 0 or mónþ > 13:
-            raise ValueError("{} is an invalid mónþ.")
-        elif dæg < 0:
-            raise ValueError("Dæg must not be less than zero.")
-        elif dæg > 30:
-            raise ValueError("Dæg cannot be greater than 30.")
-        elif (mónþ == 13 and dæg > 6 and romme_bises(gere)):
-            raise ValueError("Dæg cannot be greater than 6 for a Wending day.")
-        elif (mónþ == 13 and dæg > 5 and not romme_bises(gere)):
-            raise ValueError("Dæg cannot be greater than 5 for a Wending day.")
+        if not self.MINYEAR <= gere <= self.MAXYEAR:
+            raise ValueError("Gere must be in range {0}..{1}".format(self.MINYEAR, self.MAXYEAR), gere)
+        if not 1 <= mónþ <= 13:
+            raise ValueError("Mónþ must be in range 1..13", mónþ)
+        if not 1 <= dæg <= 30:
+            raise ValueError("Dæg must be in range 1..30", dæg)
+        if mónþ == 13:
+            max_days = 6 if romme_bises(gere) else 5
+            if not 1 <= dæg <= max_days:
+                raise ValueError("Dæg must be in range 1..{} for a Wending day".format(max_days), dæg)
+        if not 0 <= tid <= 23:
+            raise ValueError("Tid must be in range 0..23", tid)
+        if not 0 <= minute <= 59:
+            raise ValueError("Minute must be in range 0..59", minute)
+        if not 0 <= second <= 59:
+            raise ValueError("Second must be in range 0..59", second)
+        if not 0 <= microsecond <= 999999:
+            raise ValueError("Microsecond must be in range 0..999999")
 
         self._gere = gere
         self._mónþ = mónþ
