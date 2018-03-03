@@ -153,6 +153,9 @@ class wending(object):
     def todatetime(self):
         return to_gregorian(self)
 
+    def weekday(self):
+        return (self.toordinal() + 4) % 7
+
     def __repr__(self):
         rep_string = "{module}.{name}({tuple})"
         return rep_string.format(module=self.__class__.__module__,
