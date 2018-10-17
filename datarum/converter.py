@@ -6,6 +6,7 @@ from . import wending
 
 # Revolutionary calendar starts on 22nd September 1792
 incept = datetime(1792, 9, 21, 0, 0, 0)
+incept_ts = -5594316808.0
 DAYS_IN_YEAR = 365
 
 
@@ -19,7 +20,7 @@ def from_date(date):
 
     # Remove the time from the timestamp
     date_sans_time = datetime.combine(date, datetime.min.time())
-    diff = date_sans_time.timestamp() - incept.timestamp()
+    diff = date_sans_time.timestamp() - incept_ts
     w = to_wending_from_ordinal(int(round(diff / (24*60*60))))
     return w.replace(hour=date.hour, minute=date.minute, second=date.second,
                      microsecond=date.microsecond)
