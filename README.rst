@@ -6,8 +6,8 @@ Datárum
     :target: http://datarum.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: http://scieldas.autophagy.io/travis/Autophagy/datarum.png
-    :target: https://travis-ci.org/Autophagy/datarum
+.. image:: http://scieldas.autophagy.io/travis/autophagy/datarum.png
+    :target: https://travis-ci.org/autophagy/datarum
     :alt: Build Status
 
 .. image:: http://scieldas.autophagy.io/pypi/version/datarum.png
