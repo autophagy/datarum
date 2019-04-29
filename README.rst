@@ -2,11 +2,11 @@
 Datárum
 =======
 
-.. image:: http://scieldas.autophagy.io/rtd/datarum.png
+.. image:: http://scieldas.autophagy.io/rtd/build/datarum.png
     :target: http://datarum.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: http://scieldas.autophagy.io/travis/autophagy/datarum.png
+.. image:: http://scieldas.autophagy.io/travis/build/autophagy/datarum.png
     :target: https://travis-ci.org/autophagy/datarum
     :alt: Build Status
 
@@ -18,7 +18,7 @@ Datárum
    :target: https://pypi.python.org/pypi/datarum/
    :alt: Python Version
 
-.. image:: http://scieldas.autophagy.io/licenses/MIT.png
+.. image:: http://scieldas.autophagy.io/misc/licenses/mit.png
    :target: LICENSE
    :alt: MIT License
 
